@@ -1,0 +1,6 @@
+{
+  "name": "Astral Creature Journal & AI Goal Roadmap",
+  "description": "A productive journal app where you nurture mythical creatures by achieving daily goals, logging digital reflections, and completing AI-generated day-by-day roadmaps.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

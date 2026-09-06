@@ -1,0 +1,97 @@
+{
+  "entities": {
+    "UserProfile": {
+      "collection": "users",
+      "fields": {
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "lastLogin": { "type": "string" }
+      }
+    },
+    "PetState": {
+      "collection": "users/{uid}/pet",
+      "fields": {
+        "name": { "type": "string" },
+        "type": { "type": "string" },
+        "stage": { "type": "string", "enum": ["EGG", "BABY", "JUVENILE", "AWAKENED"] },
+        "xp": { "type": "number" },
+        "level": { "type": "number" },
+        "evolutionPath": { "type": "string", "nullable": true, "enum": [null, "SCHOLAR", "ADVENTURER", "CREATOR"] },
+        "pendingEvolutionChoice": { "type": "boolean" },
+        "affinity": { "type": "number" },
+        "vitality": { "type": "number" },
+        "energy": { "type": "number" },
+        "lastFedAt": { "type": "string", "nullable": true },
+        "lastPettedAt": { "type": "string", "nullable": true }
+      }
+    },
+    "StatsSummary": {
+      "collection": "users/{uid}/stats",
+      "fields": {
+        "totalXp": { "type": "number" },
+        "tasksCompleted": { "type": "number" },
+        "currentStreak": { "type": "number" },
+        "bestStreak": { "type": "number" },
+        "lastActiveDate": { "type": "string" },
+        "stardust": { "type": "number" }
+      }
+    },
+    "Task": {
+      "collection": "users/{uid}/tasks",
+      "fields": {
+        "title": { "type": "string" },
+        "estimatedMinutes": { "type": "number" },
+        "priority": { "type": "string", "enum": ["high", "medium", "low"] },
+        "category": { "type": "string" },
+        "completed": { "type": "boolean" },
+        "completedAt": { "type": "string", "nullable": true },
+        "roadmapDayNumber": { "type": "number" },
+        "xpRewarded": { "type": "number", "nullable": true },
+        "createdAt": { "type": "string" }
+      }
+    },
+    "Journal": {
+      "collection": "users/{uid}/journals",
+      "fields": {
+        "date": { "type": "string" },
+        "dayNumber": { "type": "number" },
+        "mood": { "type": "string" },
+        "whatHappened": { "type": "string" },
+        "feelings": { "type": "string" },
+        "wins": { "type": "string" },
+        "challenges": { "type": "string" },
+        "reflectionSummary": { "type": "string", "nullable": true },
+        "reflectionProgress": { "type": "string", "nullable": true },
+        "reflectionObstacles": { "type": "string", "nullable": true },
+        "reflectionNextAction": { "type": "string", "nullable": true },
+        "creatureWhisper": { "type": "string", "nullable": true },
+        "xpEarned": { "type": "number" },
+        "createdAt": { "type": "string" }
+      }
+    },
+    "Quest": {
+      "collection": "users/{uid}/quests",
+      "fields": {
+        "goalTitle": { "type": "string" },
+        "goalDescription": { "type": "string" },
+        "targetDays": { "type": "number" },
+        "dailyMinutes": { "type": "number" },
+        "roadmapData": { "type": "object" },
+        "createdAt": { "type": "string" }
+      }
+    },
+    "Conversation": {
+      "collection": "users/{uid}/conversations",
+      "fields": {
+        "title": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      }
+    }
+  },
+  "securityRules": {
+    "isolation": "All documents are strictly under users/{uid}. Client reads and writes are authorized only for authenticated owners (request.auth.uid == uid).",
+    "serverAuthoritative": "Pet state and stats/summary are owner-isolated and synced seamlessly."
+  }
+}

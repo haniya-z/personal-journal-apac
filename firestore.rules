@@ -1,0 +1,60 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to check if the caller is the document owner
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    // User profile document
+    match /users/{uid} {
+      allow read: if isOwner(uid);
+      allow create, update: if isOwner(uid);
+      allow delete: if false;
+
+      // Pet state: user isolated read and write
+      match /pet/{docId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      // Stats summary: user isolated read and write
+      match /stats/{docId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      // Daily tasks subcollection
+      match /tasks/{taskId} {
+        allow read: if isOwner(uid);
+        allow create, update, delete: if isOwner(uid);
+      }
+
+      // Quests & Roadmap subcollection
+      match /quests/{questId} {
+        allow read: if isOwner(uid);
+        allow create, update, delete: if isOwner(uid);
+      }
+
+      // Digital journals subcollection
+      match /journals/{journalId} {
+        allow read: if isOwner(uid);
+        allow create, update, delete: if isOwner(uid);
+      }
+
+      // Conversations subcollection for AI companion interactions
+      match /conversations/{conversationId} {
+        allow read: if isOwner(uid);
+        allow create, update, delete: if isOwner(uid);
+
+        match /messages/{messageId} {
+          allow read: if isOwner(uid);
+          allow create, update, delete: if isOwner(uid);
+        }
+      }
+    }
+
+    // Default deny all other paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
